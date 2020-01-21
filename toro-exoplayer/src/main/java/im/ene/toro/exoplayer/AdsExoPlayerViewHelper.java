@@ -18,7 +18,6 @@ package im.ene.toro.exoplayer;
 
 import android.content.Context;
 import android.net.Uri;
-import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.exoplayer2.source.ads.AdsLoader;
@@ -42,7 +41,7 @@ public class AdsExoPlayerViewHelper extends ExoPlayerViewHelper {
       Uri contentUri,         //
       String fileExt,         //
       AdsLoader adsLoader,    //
-      ViewGroup adContainer   //
+      AdsLoader.AdViewProvider adContainer   //
   ) {
     return new AdsPlayable(creator, contentUri, fileExt, player, adsLoader, adContainer);
   }
@@ -53,7 +52,7 @@ public class AdsExoPlayerViewHelper extends ExoPlayerViewHelper {
       Uri contentUri,         //
       String fileExt,         //
       AdsLoader adsLoader,    //
-      ViewGroup adContainer   //
+      AdsLoader.AdViewProvider adContainer   //
   ) {
     Context context = player.getPlayerView().getContext();
     return createPlayable(player, ToroExo.with(context).getCreator(config), contentUri, fileExt,
@@ -65,7 +64,7 @@ public class AdsExoPlayerViewHelper extends ExoPlayerViewHelper {
       Uri contentUri,         //
       String fileExt,         //
       AdsLoader adsLoader,    //
-      ViewGroup adContainer   //
+      AdsLoader.AdViewProvider adContainer   //
   ) {
     Context context = player.getPlayerView().getContext();
     return createPlayable(player, ToroExo.with(context).getDefaultCreator(), contentUri, fileExt,
@@ -84,7 +83,7 @@ public class AdsExoPlayerViewHelper extends ExoPlayerViewHelper {
       @NonNull Uri uri,                 //
       @Nullable String fileExt,         //
       @NonNull AdsLoader adsLoader,     //
-      @Nullable ViewGroup adContainer   //
+      @Nullable AdsLoader.AdViewProvider adContainer   //
   ) {
     super(player, createPlayable(player, uri, fileExt, adsLoader, adContainer));
   }
@@ -101,7 +100,7 @@ public class AdsExoPlayerViewHelper extends ExoPlayerViewHelper {
       @NonNull Uri uri,                 //
       @Nullable String fileExt,         //
       @NonNull AdsLoader adsLoader,     //
-      @Nullable ViewGroup adContainer,  //
+      @Nullable AdsLoader.AdViewProvider adContainer,  //
       @NonNull ExoCreator creator       //
   ) {
     super(player, createPlayable(player, creator, uri, fileExt, adsLoader, adContainer));
@@ -119,7 +118,7 @@ public class AdsExoPlayerViewHelper extends ExoPlayerViewHelper {
       @NonNull Uri uri,                 //
       @Nullable String fileExt,         //
       @NonNull AdsLoader adsLoader,     //
-      @Nullable ViewGroup adContainer,  //
+      @Nullable AdsLoader.AdViewProvider adContainer,  //
       @NonNull Config config            //
   ) {
     super(player, createPlayable(player, config, uri, fileExt, adsLoader, adContainer));

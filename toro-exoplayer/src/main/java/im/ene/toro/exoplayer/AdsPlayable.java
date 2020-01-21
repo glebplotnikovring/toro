@@ -18,12 +18,12 @@ package im.ene.toro.exoplayer;
 
 import android.net.Uri;
 import android.view.View;
-import android.view.ViewGroup;
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.MediaSourceFactory;
 import com.google.android.exoplayer2.source.ads.AdsLoader;
 import com.google.android.exoplayer2.source.ads.AdsMediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -39,7 +39,7 @@ import im.ene.toro.annotations.Beta;
 @Beta //
 public class AdsPlayable extends ExoPlayable {
 
-  static class FactoryImpl implements AdsMediaSource.MediaSourceFactory {
+  static class FactoryImpl implements MediaSourceFactory {
 
     @NonNull final ExoCreator creator;
     @NonNull final ToroPlayer player;
@@ -61,11 +61,11 @@ public class AdsPlayable extends ExoPlayable {
 
   @NonNull private final AdsLoader adsLoader;
   @NonNull private final FactoryImpl factory;
-  @Nullable private final ViewGroup adsContainer;
+  @Nullable private final AdsLoader.AdViewProvider adsContainer;
 
   @SuppressWarnings("WeakerAccess")
   public AdsPlayable(ExoCreator creator, Uri uri, String fileExt, ToroPlayer player,
-      @NonNull AdsLoader adsLoader, @Nullable ViewGroup adsContainer) {
+      @NonNull AdsLoader adsLoader, @Nullable AdsLoader.AdViewProvider adsContainer) {
     super(creator, uri, fileExt);
     this.adsLoader = adsLoader;
     this.adsContainer = adsContainer;
@@ -80,8 +80,8 @@ public class AdsPlayable extends ExoPlayable {
   }
 
   private static MediaSource createAdsMediaSource(ExoCreator creator, Uri uri, String fileExt,
-      ToroPlayer player, AdsLoader adsLoader, ViewGroup adContainer,
-      AdsMediaSource.MediaSourceFactory factory) {
+      ToroPlayer player, AdsLoader adsLoader, AdsLoader.AdViewProvider adContainer,
+      MediaSourceFactory factory) {
     MediaSource original = creator.createMediaSource(uri, fileExt);
     View playerView = player.getPlayerView();
     if (!(playerView instanceof PlayerView)) {
@@ -89,6 +89,6 @@ public class AdsPlayable extends ExoPlayable {
     }
 
     return new AdsMediaSource(original, factory, adsLoader,
-        adContainer == null ? ((PlayerView) playerView).getOverlayFrameLayout() : adContainer);
+        adContainer == null ? (PlayerView) playerView : adContainer);
   }
 }
